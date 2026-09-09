@@ -1,354 +1,293 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flowers Blooming ❤️</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Blooms - Special Gift</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', cursive, sans-serif;
+        }
 
-    body {
-      background-color: #ebdcb9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-    }
+        body {
+            background-color: #f7f3e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    .card-container {
-      width: 90%;
-      max-width: 420px;
-      height: 85vh;
-      background-color: #ebdcb9;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow: hidden;
-    }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            height: 550px;
+            background: linear-gradient(135deg, #eee3d3 0%, #f4eae0 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2d5c3;
+        }
 
-    .header-text {
-      position: absolute;
-      top: 25px;
-      left: 25px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #8c8275;
-    }
+        /* Top Bar Details */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
 
-    .timer-text {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      font-size: 0.9rem;
-      color: #b5ac9e;
-    }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 5px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
 
-    .wrapper {
-      position: relative;
-      cursor: pointer;
-      margin-top: 50px;
-    }
+        .timer {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
 
-    .envelope {
-      position: relative;
-      width: 160px;
-      height: 100px;
-      background-color: #e5d3bf;
-      border-radius: 4px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.3s ease;
-      z-index: 2;
-    }
+        /* Center Envelope */
+        .envelope-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.3s ease;
+        }
 
-    .envelope::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      border-left: 80px solid transparent;
-      border-right: 80px solid transparent;
-      border-top: 60px solid #d4be9f;
-      transform-origin: top;
-      transition: transform 0.5s ease 0.2s;
-      z-index: 4;
-    }
+        .envelope-wrapper:hover {
+            transform: translate(-50%, -52%) scale(1.03);
+        }
 
-    .wrapper.open .envelope::before {
-      transform: rotateX(180deg);
-      z-index: 1;
-    }
+        .envelope {
+            width: 220px;
+            height: 140px;
+            background: #e6cec0;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    /* ورقة الرسالة الكبيرة */
-    .letter {
-      position: absolute;
-      bottom: 5px;
-      left: 10px;
-      width: 140px;
-      height: 90px;
-      background: #fffdf9;
-      border-radius: 6px;
-      padding: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      transition: all 0.6s ease 0.4s;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      overflow: hidden;
-      opacity: 0;
-    }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            border-top: 75px solid #d8b8a7;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
 
-    /* تكبير ورقة الرسالة ملي كيتفتح الظرف */
-    .wrapper.open .letter {
-      transform: translateY(-140px);
-      width: 240px;
-      height: 270px;
-      left: -40px;
-      padding: 12px;
-      opacity: 1;
-    }
+        .wax-seal {
+            width: 45px;
+            height: 45px;
+            background: #c28d75;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            color: white;
+            font-size: 20px;
+        }
 
-    .slider-container {
-      position: relative;
-      width: 100%;
-      height: 120px;
-      margin-bottom: 10px;
-      flex-shrink: 0;
-      perspective: 1000px;
-      cursor: pointer;
-    }
+        /* Letter Inside Envelope */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            width: 190px;
+            height: 110px;
+            background: #ffffff;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #665;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+            z-index: 1;
+        }
 
-    .letter-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 6px;
-      opacity: 0;
-      transform: scale(0.9) translateY(0);
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      pointer-events: none;
-    }
+        .envelope-wrapper.open .letter {
+            transform: translateY(-80px);
+            opacity: 1;
+            z-index: 6;
+            height: 150px;
+        }
 
-    .letter-img.active {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      z-index: 10;
-      pointer-events: auto;
-    }
+        /* 5 Polaroid Photo Frames */
+        .polaroid {
+            position: absolute;
+            background: white;
+            padding: 8px 8px 22px 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
 
-    .letter-img.swiped {
-      opacity: 0;
-      transform: translateX(-100px) rotate(-15deg);
-      z-index: 1;
-    }
+        .polaroid img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
 
-    /* النص الكبير المخصص للرسالة */
-    .letter-text {
-      font-size: 0.85rem;
-      color: #5a5248;
-      text-align: center;
-      line-height: 1.5;
-      font-weight: 500;
-      width: 100%;
-      overflow-y: auto; /* باش يقدر يسكرولي إذا كان المساج طويل */
-      padding-right: 2px;
-      direction: rtl;
-    }
+        .polaroid .caption {
+            font-size: 0.65rem;
+            color: #887;
+            text-align: center;
+            margin-top: 5px;
+            font-style: italic;
+        }
 
-    .click-hint {
-      margin-top: 45px;
-      font-size: 0.8rem;
-      color: #a89f91;
-      letter-spacing: 1px;
-    }
+        /* Photo Positions & Rotations */
+        .photo-1 { top: 70px; left: 50px; transform: rotate(-8deg); }
+        .photo-2 { bottom: 60px; left: 80px; transform: rotate(5deg); }
+        .photo-3 { top: 60px; right: 60px; transform: rotate(7deg); }
+        .photo-4 { bottom: 50px; right: 80px; transform: rotate(-6deg); }
+        .photo-5 { top: 220px; right: 30px; transform: rotate(12deg); }
 
-    .particle {
-      position: absolute;
-      pointer-events: none;
-      animation: floatUp 4s linear infinite;
-      opacity: 0;
-    }
+        .polaroid:hover {
+            transform: scale(1.1) rotate(0deg);
+            z-index: 10;
+        }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(0.6) rotate(0deg);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.8;
-      }
-      80% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-260px) scale(1.2) rotate(20deg);
-        opacity: 0;
-      }
-    }
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            color: #e2a9a9;
+            font-size: 16px;
+            pointer-events: none;
+            animation: floatUp 2s linear forwards;
+        }
 
-    .bottom-btn-left {
-      position: absolute;
-      bottom: 25px;
-      left: 20px;
-      background: #f0e1e1;
-      color: #d65a6f;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
+        }
 
-    .bottom-btn-right {
-      position: absolute;
-      bottom: 25px;
-      right: 20px;
-      background: #2b3a2a;
-      color: #ffffff;
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 0.75rem;
-    }
-  </style>
+        /* Bottom Details */
+        .bottom-tag {
+            position: absolute;
+            bottom: 20px;
+            left: 25px;
+            background: rgba(255, 235, 235, 0.7);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: #a37272;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card-container" id="card">
-    <div class="header-text">flowersbloomingg</div>
-    <div class="timer-text">0:37</div>
-
-    <div class="wrapper" id="envelopeWrapper" onclick="toggleEnvelope()">
-      <div class="letter">
-        <div class="slider-container" id="slider">
-          <img src="photo1.jpg" class="letter-img active" alt="Photo 1">
-          <img src="photo2.jpg" class="letter-img" alt="Photo 2">
-          <img src="photo3.jpg" class="letter-img" alt="Photo 3">
-          <img src="photo4.jpg" class="letter-img" alt="Photo 4">
-          <img src="photo5.jpg" class="letter-img" alt="Photo 5">
+    <div class="container" id="mainContainer">
+        <!-- Top Navigation / Info -->
+        <div class="top-bar">
+            <div class="profile-info">
+                <span>🌸 flower_blooms</span>
+            </div>
+            <div class="timer">0:37</div>
         </div>
 
-        <!-- اكتب المساج الكبير ديالك هنا -->
-        <div class="letter-text">
-          كتب النص اللي بغيتي هنا... <br>
-          تقدر تكتب كلام طويل بزاف، حيت الورقة كبرات، وحتى إذا كان المساج طويل، يقدر السيط يسكروليه بسلاسة ❤️
-        </div>  bghayte nktabe lk hade mess hite kaynine bezzzzzf dyale hwayje fi 9albi li baede marate makan3rafe kifache n3abre lk 3lihome lyouma jite ngoulk kolchi ou ch7ale nti waliti mohima fhyati
-      </div>  mne nhare dkhalti lhyati tbadlo fia bzzzf lhwayje wlite kanfrahe bhwayje sghare hite nti joz2e mnhome ou walate 3ndi wahde personne li nfakre fiha ou npartager maek ayi haja katw9a3e lia hta mli gaema kankoune mzn ghire lhadra maek kat9dare tbdle mood dyali
-      </div>  kanbghi fk bzzzzzzf dyale hwayje wlkn aktare haja hia dk ihssase li kat3tini mli kankoune maek kanhasse brassi martahe ou kanbghi hta kes détails sghare li fk tari9a dyale lhadra dyalk dahka dyalk  kifache katfarhi kifache kat9al9i (wara ba9i gaema chfthom live) wara hakak kanbghi ayi haja fk zwina ou hta khayba
-      </div>  momkine baede marate gaema kan3abre mzn ou momkine baede marate kanghlate flhadra oula tasarofate dyali wlkn 3amrk tchaki fwahde lhaja blastk 3andi kbiiiiira bezzzzzzzzzf ou ana gaela bghayte nkoune maek ra fles période zwina ou sfe bghayte nkoune dk chakhsse li tl9ayhe hdak dimne fayi haja trate lk fhyatk
-      </div>  kantmana mne 9albi nb9aw bjouje nt3almo bjouje mne baediyatna ou nb9aw sanade lbaediyatna bghayte n3iche maek bzzzzzf dyale dikrayate ou les monuments zwinine nsafro ndahko 3la hwayje li tafhine ndwzo aw9ate s3iba mae baediyatna ou ndwzouha bjouje bina ou 3lx la iwsale wahde nhare ou nchoufo hade chi li daze 3lina ou ngoulo hmdlh b9ina mae baediyatna
-      </div>  ou aktare haja bghaytk t3arfiha hia ana rah gaema kanbghik ra blhadra wlkn rah kanbghik bgae dk ihssase li 3ndi f9albi ou kantmana dimne nkoune 9ade ti9a dyalk ou nkoune ana howa personne li thassi maeh bi amane ou raha ou hobe
-      </div>  chokrane chokrane 3la ayi haja drtiha maeya zwina ou 3la ayi message zwine mne 3ndk farhni ou 3la kola mara knti fiha fjanbi wara nb9a ra nktabe gaema radi n9dare nwsafe dk chi li kanhasse bihe wlkn 3la a9ale bghaytk t3arfi 3ndk wahde personne li kaychoufk mne ahssane lhwayje li wa93ate lihe fhyato
-                                  </div> i loveeee youuuuuu 😍🫶🏻
-      <div class="envelope"></div>
+        <!-- 5 Photos (Badal 'src' b les photos dyalk) -->
+        <div class="polaroid photo-1">
+            <img src="photo1.jpg" alt="Photo 1">
+            <div class="caption">our story</div>
+        </div>
+
+        <div class="polaroid photo-2">
+            <img src="photo2.jpg" alt="Photo 2">
+            <div class="caption">our story</div>
+        </div>
+
+        <div class="polaroid photo-3">
+            <img src="photo3.jpg" alt="Photo 3">
+            <div class="caption">sweet memories</div>
+        </div>
+
+        <div class="polaroid photo-4">
+            <img src="photo4.jpg" alt="Photo 4">
+            <div class="caption">moments like these</div>
+        </div>
+
+        <div class="polaroid photo-5">
+            <img src="photo5.jpg" alt="Photo 5">
+            <div class="caption">forever ♡</div>
+        </div>
+
+        <!-- Center Interactive Envelope -->
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="envelope">
+                <div class="wax-seal">🌸</div>
+                <div class="letter">
+                    <p style="font-weight: bold; margin-bottom: 5px; color: #a37272;">For You ♡</p>
+                    <p>Ktab hna رسالة dyalk li bghiti tktab l chakhs al-mouhim!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Tag -->
+        <div class="bottom-tag">
+            <span>♥</span> flower_blooms
+        </div>
     </div>
 
-    <div class="click-hint">Click the envelope</div>
-
-    <div class="bottom-btn-left">
-      <span>❤️</span> flowersbloomingg
-    </div>
-    <div class="bottom-btn-right">
-      Open
-    </div>
-  </div>
-
-  <script>
-    function toggleEnvelope() {
-      const wrapper = document.getElementById('envelopeWrapper');
-      wrapper.classList.toggle('open');
-      
-      if(wrapper.classList.contains('open')) {
-        for(let i = 0; i < 12; i++) {
-          createParticle();
-        }
-      }
-    }
-
-    function createParticle() {
-      const card = document.getElementById('card');
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      const items = ['🦋', '🌸', '✨', '🤍'];
-      particle.innerText = items[Math.floor(Math.random() * items.length)];
-
-      particle.style.left = (Math.random() * 80 + 10) + '%';
-      particle.style.bottom = '120px';
-      particle.style.animationDelay = (Math.random() * 2) + 's';
-      particle.style.fontSize = (Math.random() * 10 + 14) + 'px';
-
-      card.appendChild(particle);
-
-      setTimeout(() => {
-        particle.remove();
-      }, 4000);
-    }
-
-    setInterval(createParticle, 1200);
-
-    let startX = 0;
-    let currentCardIndex = 0;
-    const slider = document.getElementById('slider');
-
-    slider.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-
-    slider.addEventListener('touchend', (e) => {
-      let endX = e.changedTouches[0].clientX;
-      if (startX - endX > 30) {
-        nextPhoto();
-      } else if (endX - startX > 30) {
-        prevPhoto();
-      }
-    });
-
-    slider.addEventListener('click', (e) => {
-      e.stopPropagation();
-      nextPhoto();
-    });
-
-    function nextPhoto() {
-      const images = document.querySelectorAll('.letter-img');
-      images[currentCardIndex].classList.remove('active');
-      images[currentCardIndex].classList.add('swiped');
-      
-      currentCardIndex = (currentCardIndex + 1) % images.length;
-      
-      setTimeout(() => {
-        images.forEach((img, idx) => {
-          if (idx === currentCardIndex) {
-            img.classList.add('active');
-            img.classList.remove('swiped');
-          }
+    <script>
+        // Open Envelope Interactive
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        envelopeWrapper.addEventListener('click', () => {
+            envelopeWrapper.classList.toggle('open');
         });
-      }, 300);
-    }
 
-    function prevPhoto() {
-      const images = document.querySelectorAll('.letter-img');
-      images[currentCardIndex].classList.remove('active');
-      
-      currentCardIndex = (currentCardIndex - 1 + images.length) % images.length;
-      images[currentCardIndex].classList.remove('swiped');
-      images[currentCardIndex].classList.add('active');
-    }
-  </script>
+        // Floating Hearts Effect on Click
+        const container = document.getElementById('mainContainer');
+        container.addEventListener('click', (e) => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '♥';
+            
+            const rect = container.getBoundingClientRect();
+            heart.style.left = (e.clientX - rect.left) + 'px';
+            heart.style.top = (e.clientY - rect.top) + 'px';
+            
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
